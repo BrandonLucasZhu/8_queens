@@ -25,7 +25,7 @@ public class EightQueens{
 		initial = true; //No queens on the board initially
 	}
 	
-	public void placeQueen(int row, int col) {
+	public Boolean placeQueen(int row, int col) {
 		if (initial == true) {
 			board[row][col] = queen;
 			initial = false;
@@ -33,6 +33,7 @@ public class EightQueens{
 		
 		if (isAttQueen(row,col)) {
 			col++
+			tryNext = placeQueen(row,col);
 		}
 		else if (col > board.length) {
 			
