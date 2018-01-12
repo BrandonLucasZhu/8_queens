@@ -1,13 +1,17 @@
 public class EightQueens{
 	
 	//check to see if any queens are on the board initially
-	public static boolean initial;
+	public static boolean initial = true;
 	
 	//Represent an empty point on the board
 	public static boolean empty = false; 
 	
 	//Represent a queen on the point
 	public static boolean queen = true;
+	
+	
+	public static int newRow;
+	public static int newCol;
 	
 	//Board logic representation
 	public static boolean[][] board = new boolean[8][8];
@@ -17,7 +21,7 @@ public class EightQueens{
 	public EightQueens() {
 		//Create the 8x8 board
 		for (int row = 0; row < board.length; row ++) {
-			for (int col = 0; col < board.length; col++) {
+			for (int col = 0; col < board[0].length; col++) {
 				board[row][col] = empty;
 			}
 		}
@@ -25,21 +29,55 @@ public class EightQueens{
 		initial = true; //No queens on the board initially
 	}
 	
-	public Boolean placeQueen(int row, int col) {
+	public Boolean placeQueens(int row, int col) {
+		System.out.println("row:" + Integer.toString(row) + "col:" + Integer.toString(col));
+		
+		//System.out.println(col);
+		boolean totalQueensPlaced = false;
+		
 		if (initial == true) {
 			board[row][col] = queen;
 			initial = false;
+			newRow = row + 1;
+			newCol = 0;
 		}
-		
-		if (isAttQueen(row,col)) {
-			col++
-			tryNext = placeQueen(row,col);
-		}
-		else if (col > board.length) {
+		else {
+			if (row > 8) {
+				return true;
+			}
 			
+			
+			if (col >= 8) {
+				for (int i = 0; i< board.length; i++) {
+					if (board[row - 1][i] == queen) {
+						removeQueen(row - 1, i);
+						newRow = row - 1;
+						newCol = i + 1;
+					}
+				}
+			}
+			if (isAttQueen(row,col)) {
+				newRow = row;
+				newCol = col + 1;
+			}
+			
+			else {
+				putSingleQueen(row, col);
+				newRow = row + 1;
+				newCol = 0;
+			}
 		}
+		totalQueensPlaced = placeQueens(newRow, newCol);
 		
 		
+		return totalQueensPlaced;
+		
+	}
+	
+	
+	
+	public void putSingleQueen(int row, int col) {
+		board[row][col] = queen;
 	}
 	
 	public void removeQueen(int row, int col) {
@@ -88,10 +126,24 @@ public class EightQueens{
 				isAtt = true;
 			}
 		}
-		
+		return isAtt;
 	}
 	
-	
+	public void dispBoard () {
+		for (int i = board[0].length-1; i >= 0; i--){
+		      for (int j = board.length-1; j >= 0; j--){
+		    	  if (board[j][i] == queen) {
+		    		  System.out.print("Q" + " ");
+		    	  }
+		    	  else {
+		    		  System.out.print("E" + " ");
+		    	  }
+		      }
+		      System.out.println();
+		}
+		
+		
+	}
 	
 	
 	
@@ -101,7 +153,8 @@ public class EightQueens{
 		//Set up the board
 		EightQueens findSolution = new EightQueens();
 		//Place one queen to get a 8 queen solution
-		findSolution.placeQueen(0,0);
+		findSolution.placeQueens(0,0);
+		findSolution.dispBoard();
 	}
 	
 	
