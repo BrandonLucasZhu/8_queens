@@ -42,12 +42,12 @@ public class EightQueens{
 			newCol = 0;
 		}
 		else {
-			if (row > 8) {
+			if (row >= 8) {
 				return true;
 			}
 			
 			
-			if (col >= 8) {
+			else if (col >= 8) {
 				for (int i = 0; i< board.length; i++) {
 					if (board[row - 1][i] == queen) {
 						removeQueen(row - 1, i);
@@ -56,7 +56,7 @@ public class EightQueens{
 					}
 				}
 			}
-			if (isAttQueen(row,col)) {
+			else if (isAttQueen(row,col)) {
 				newRow = row;
 				newCol = col + 1;
 			}
@@ -109,19 +109,19 @@ public class EightQueens{
 			}
 		}
 		//Diagonal going upwards right
-		for (int diagRow = row, diagCol = col; diagRow < 8 && diagCol > 0; diagRow++, diagCol--) {
+		for (int diagRow = row, diagCol = col; diagRow < 8 && diagCol >= 0; diagRow++, diagCol--) {
 			if (board[diagRow][diagCol] == true) {
 				isAtt = true;
 			}
 		}
 		//Diagonal going upwards left
-		for (int diagRow = row, diagCol = col; diagRow > 0 && diagCol > 0; diagRow--, diagCol--) {
+		for (int diagRow = row, diagCol = col; diagRow >= 0 && diagCol >= 0; diagRow--, diagCol--) {
 			if (board[diagRow][diagCol] == true) {
 				isAtt = true;
 			}
 		}
 		//Diagonal going downwards left
-		for (int diagRow = row, diagCol = col; diagRow > 0 && diagCol < 8; diagRow--, diagCol++) {
+		for (int diagRow = row, diagCol = col; diagRow >= 0 && diagCol < 8; diagRow--, diagCol++) {
 			if (board[diagRow][diagCol] == true) {
 				isAtt = true;
 			}
@@ -130,9 +130,9 @@ public class EightQueens{
 	}
 	
 	public void dispBoard () {
-		for (int i = board[0].length-1; i >= 0; i--){
-		      for (int j = board.length-1; j >= 0; j--){
-		    	  if (board[j][i] == queen) {
+		for (int i = 0; i < board.length; i++){
+		      for (int j = 0; j <board[i].length ; j++){
+		    	  if (board[i][j] == queen) {
 		    		  System.out.print("Q" + " ");
 		    	  }
 		    	  else {
